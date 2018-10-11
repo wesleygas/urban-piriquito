@@ -1,7 +1,8 @@
 
 import numpy as np
 import sounddevice as sd
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 from scipy.fftpack import fft
 from scipy import signal as window
 
