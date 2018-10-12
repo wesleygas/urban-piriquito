@@ -37,39 +37,56 @@ def transmissao(duracao = 2):
 	plt.title('Sinal do numero até 1000')
 	plt.show()
 
+def recepcao():
+	duration = 2
+	myrecording = sd.rec(int(duration * fs))
+	sd.wait()
 
-duration = 2
-myrecording = sd.rec(int(duration * fs))
-sd.wait()
+	cache = myrecording[0:fs,0]
+	frequencias,FFArray = sig.calcFFT(cache, fs)
+	frequencias = frequencias[:5000]
+	FFArray = FFArray[:5000]
+	indexes = peakutils.indexes(FFArray, thres=0.5, min_dist=70)
+	print(indexes)
 
-cache = myrecording[0:fs,0]
-frequencias,FFArray = sig.calcFFT(cache, fs)
-frequencias = frequencias[:5000]
-FFArray = FFArray[:5000]
-indexes = peakutils.indexes(FFArray, thres=0.5, min_dist=70)
-print(indexes)
-indexes2 = []
-for i in range(len(indexes)):
-	indexes2.append(round(indexes[i]+2))
-	indexes2.append(round(indexes[i]+1))
-	indexes2.append(round(indexes[i]))
-	indexes2.append(round(indexes[i]-1))
-	indexes2.append(round(indexes[i]-2))
-print(indexes2)
-print(listaFreq[0][0])
-number = 10
-for i in range(len(indexes2)):
-	for j in range(len(listaFreq)):
-		if indexes2[i] == listaFreq[j][0]:
-			if indexes2[i] == listaFreq[j][1]:
-				numero = j
+	indexes2 = []
+	p1num = []
+	p2num = []
+	for i in range(len(indexes)):
+	    indexes2.append(round(indexes[i]+2))
+	    indexes2.append(round(indexes[i]+1))
+	    indexes2.append(round(indexes[i]))
+	    indexes2.append(round(indexes[i]-1))
+	    indexes2.append(round(indexes[i]-2))
+	print(indexes2)
+	number = 10
+	for i in range(len(indexes2)):
+	    for j in range(len(listaFreq)):
+	        if indexes2[i] == listaFreq[j][0]:
+	            p1num.append(j)
+	            print(p1num)
+	        if indexes2[i] == listaFreq[j][1]:
+	            p2num.append(j)
+	            print(p2num)
+	for i in range(len(p1num)):
+	    for j in range(len(p2num)):
+	        if p1num[i] == p2num[j]:
+	            number = p1num[i]
+	            break
+	        else:
+	            number = 10
+	if number < 10:
+	    print(number)
+	else:
+	    print("erro")
+	plt.plot(frequencias)
+	plt.show()
+	plt.plot(FFArray)
+	plt.show()
+	
 
-
-
-print(number)
-plt.plot(frequencias,FFArray)
-plt.show()
-
+	
+recepcao()
 
 
 
