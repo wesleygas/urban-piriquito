@@ -7,26 +7,43 @@ except ImportError:
 # needs Python25 or higher
 
 from functools import partial
-
-import matplotlib
-matplotlib.use('TkAgg')
+from signalTeste import *
+import matplotlib.pyplot as plt
+#matplotlib.use('TkAgg')
 
 num ='12'
+sig = signalMeu()
 def numero():
-    global num
+    global num, sig
     def on_key_press(event):
-        global num
+        global num, sig
         num = repr(event.char)
         num = num[1:-1]
-        boot.quit()
+        print(int(num))
+        tempo, sinal = sig.geraNum(int(num))
+        sig.playSig(sinal)
+        plt.plot(tempo[0:500],sinal[0:500])
+        plt.show()
         
 
-    def click(btn):
-        global num
-        # test the button command click
-        num = btn
+    def on_quit():
         boot.quit()
         return num
+    def click(btn):
+        global num, sig
+        # test the button command click
+        if(btn == "exit"):
+            boot.quit()
+        else:
+            print(int(btn))
+            tempo, sinal = sig.geraNum(int(btn))
+            sig.playSig(sinal)
+            plt.plot(tempo[0:500],sinal[0:500])
+            plt.show()
+            
+            
+        num = btn
+        #return num
 
     boot = tkinter.Tk()
 
@@ -40,7 +57,7 @@ def numero():
         '1',  '2',  '3',
         '4',  '5',  '6',
         '7',  '8',  '9',
-        '','0', '']
+        '','0', 'exit']
     # create and position all buttons with a for-loop
     # r, c used for row, column grid values
     r = 1
@@ -83,5 +100,8 @@ def numero():
     tk.resizable(width=False, height=False)
     tk.mainloop()
 
-    return int(num)
 
+
+
+if __name__ == '__main__':
+    numero()
