@@ -40,9 +40,9 @@ class signalMeu:
                     [697,1336], [697,1477],
                     [770,1209], [770,1336],
                     [770,1477], [852,1209],
-                    [852,1336], [852,1477] ]
-        #print(listaFreq[number])
-        time, sinal = self.generateSin(listaFreq[number][0],amplitude,duration,self.fs)
+                    [852,1336], [852,1477]]
+
+        time, sinal = self.generateSin(listaFreq[number][0],amplitude*1.4,duration,self.fs)
         time, sinal1 = self.generateSin(listaFreq[number][1],amplitude,duration,self.fs)
         sinalF = np.add(sinal, sinal1)/2
         
@@ -52,10 +52,10 @@ class signalMeu:
         delay = np.zeros(int(intervalTime*self.fs))
         finalSignal = []
         for digit in range(len(numero)-1):
-            tempo, signal = geraNum(int(numero[digit]), duration=pressTime)
+            tempo, signal = self.geraNum(int(numero[digit]), duration=pressTime)
             finalSignal.append(signal)
             finalSignal.append(delay)
-        tempo, signal = geraNum(int(numero[-1]), duration=pressTime)
+        tempo, signal = self.geraNum(int(numero[-1]), duration=pressTime)
         finalSignal.append(signal)
         finalSignal = np.concatenate(finalSignal)
         

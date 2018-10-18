@@ -22,13 +22,11 @@ def numero():
         print(int(num))
         tempo, sinal = sig.geraNum(int(num))
         sig.playSig(sinal)
+        plt.close("all")
         plt.plot(tempo[0:500],sinal[0:500])
-        plt.show()
+        plt.show(block=False)
         
-
-    def on_quit():
-        boot.quit()
-        return num
+        
     def click(btn):
         global num, sig
         # test the button command click
@@ -36,10 +34,14 @@ def numero():
             boot.quit()
         else:
             print(int(btn))
-            tempo, sinal = sig.geraNum(int(btn))
+            tempo, sinal = sig.geraNum(int(btn), duration=2)
             sig.playSig(sinal)
+            plt.close("all")
             plt.plot(tempo[0:500],sinal[0:500])
-            plt.show()
+            #tempo, sinal = sig.calcFFT(sinal, 48000)
+            #plt.plot(tempo,sinal)
+            plt.show(block=False)
+            
             
             
         num = btn
